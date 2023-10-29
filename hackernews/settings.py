@@ -25,6 +25,7 @@ INSTALLED_APPS = [
 
     # custom app
     'graphene_django',
+    'links',
 ]
 
 MIDDLEWARE = [
