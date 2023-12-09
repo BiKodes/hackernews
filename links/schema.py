@@ -1,5 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
+from graphql import GraphQLError
 
 from .models import Link, Vote
 from users.schema import UserType
@@ -57,9 +58,13 @@ class CreateVote(graphene.Mutation):
         link_id = graphene.Int()
 
     def mutate(self, info, link_id):
+        """The code raises an exception – using two different exception classes.
+        But giving the same result, stopping its execution and returning the 
+        message between parentheses.
+        """
         user = info.context.user
         if user.is_anonymous:
-            raise Exception('You must be logged to vote!')
+            raise GraphQLError('You must be logged to vote!')
         
         link = Link.objects.filter(id=link_id).first()
         if not link:
